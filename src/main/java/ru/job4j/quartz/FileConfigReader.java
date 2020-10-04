@@ -9,10 +9,6 @@ public class FileConfinReader {
     private final String path;
     private final Map<String, String> values = new HashMap<>();
 
-    public FileConfinReader(final String path) {
-        this.path = path;
-    }
-
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             read.lines().filter(line -> line.contains("="))
