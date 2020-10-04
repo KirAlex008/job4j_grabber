@@ -9,7 +9,7 @@ import static org.quartz.SimpleScheduleBuilder.*;
 public class AlertRabbit {
 
     public static void main(String[] args) {
-        FileConfinReader reader = new FileConfinReader("C:/projects/job4j_grabber/src/main/resources/rabbit.properties");
+        FileConfigReader reader = new FileConfigReader("C:/projects/job4j_grabber/src/main/resources/rabbit.properties");
         reader.load();
         int timeInterval = Integer.parseInt(reader.value("rabbit.interval"));
 

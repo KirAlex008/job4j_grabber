@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.*;
 
-public class FileConfinReader {
+public class FileConfigReader {
 
     private final String path;
     private final Map<String, String> values = new HashMap<>();
+
+    public FileConfigReader(final String path) {
+        this.path = path;
+    }
 
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
