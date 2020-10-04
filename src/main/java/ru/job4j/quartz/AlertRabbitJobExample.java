@@ -58,7 +58,7 @@ public class AlertRabbitJobExample {
         public void execute(JobExecutionContext context) {
             System.out.println("Rabbit runs here ...");
             long timeForStore = System.currentTimeMillis();
-            System.out.println(timeForStore + "Test4");
+            //System.out.println(timeForStore + "Test4");
             //List<Long> store = (List<Long>) context.getJobDetail().getJobDataMap().get("store");
             Store store = (Store) context.getJobDetail().getJobDataMap().get("store");
             /*for (var elem : store) {
