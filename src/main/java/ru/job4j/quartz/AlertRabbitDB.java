@@ -1,28 +1,25 @@
-/*
+
 package ru.job4j.quartz;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class  AlertRabbitDB implements Store{
-
-    */
-/*private Connection cn;
+    private final Connection cn;
 
     public AlertRabbitDB(Connection cn) {
         this.cn = cn;
     }
 
-    public void init() {
+    public Connection init() {
         try (InputStream in = AlertRabbitDB.class.getClassLoader().getResourceAsStream("rabbit.properties")) {
             Properties config = new Properties();
             config.load(in);
             Class.forName(config.getProperty("jdbc.driver"));
-            cn = DriverManager.getConnection(
+            return DriverManager.getConnection(
                     config.getProperty("jdbc.url"),
                     config.getProperty("jdbc.username"),
                     config.getProperty("jdbc.password")
@@ -41,9 +38,7 @@ public class  AlertRabbitDB implements Store{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        *//*
-*/
-/*try (PreparedStatement subSt = cn.prepareStatement("SELECT * FROM rabbit")) {
+        try (PreparedStatement subSt = cn.prepareStatement("SELECT * FROM rabbit")) {
             ResultSet rs = subSt.executeQuery();
             while (rs.next())
             {
@@ -51,9 +46,7 @@ public class  AlertRabbitDB implements Store{
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }*//*
-*/
-/*
+        }
 
         //throw new IllegalStateException("Could not create new date");
     }
@@ -80,7 +73,7 @@ public class  AlertRabbitDB implements Store{
             cn.close();
         }
     }
-*//*
+
 
 }
-*/
+

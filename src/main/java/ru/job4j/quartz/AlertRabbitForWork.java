@@ -2,28 +2,18 @@ package ru.job4j.quartz;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-
-
-
 public class AlertRabbitForWork implements Store{
-
-
-
- private Connection cn;
+    //private Connection cn;
 
 /*    public AlertRabbitForWork (Connection cn) {
         this.cn = cn;
     }*/
 
-
-
-
-public Connection init() {
+     public Connection init() {
         try (InputStream in = AlertRabbitForWork.class.getClassLoader().getResourceAsStream("rabbit.properties")) {
             Properties config = new Properties();
             config.load(in);
@@ -42,15 +32,13 @@ public Connection init() {
     public void add(long time) {
         try (PreparedStatement statement = this.init().prepareStatement("insert into rabbit (create_date) values (?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setTimestamp(1, new Timestamp(time));
-            int Ans = statement.executeUpdate();
+            statement.executeUpdate();
             //System.out.println(Ans + " Test");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-
-
-/*try (PreparedStatement subSt = cn.prepareStatement("SELECT * FROM rabbit")) {
+    /*try (PreparedStatement subSt = cn.prepareStatement("SELECT * FROM rabbit")) {
             ResultSet rs = subSt.executeQuery();
             while (rs.next())
             {
@@ -62,7 +50,8 @@ public Connection init() {
         throw new IllegalStateException("Could not create new date");
    */
 
- }
+    }
+
     @Override
     public List<Long> findAll() {
         List<Long> list = new ArrayList<>();

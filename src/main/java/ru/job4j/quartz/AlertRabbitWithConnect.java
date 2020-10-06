@@ -13,16 +13,14 @@ import static org.quartz.SimpleScheduleBuilder.*;
 public class AlertRabbitWithConnect{
     Connection cn;
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
 
         try {
             List<Long> store = new ArrayList<>();
-            AlertRabbitDB storeDB = new AlertRabbitDB();
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
             JobDataMap data = new JobDataMap();
             data.put("store", store);
-            data.put("cn", storeDB.init());
             JobDetail job = newJob(Rabbit.class)
                     .usingJobData(data)
                     .build();
@@ -55,5 +53,5 @@ public class AlertRabbitWithConnect{
             List<Long> store = (List<Long>) context.getJobDetail().getJobDataMap().get("store");
             store.add(System.currentTimeMillis());
         }
-    }*/
+    }
 }
