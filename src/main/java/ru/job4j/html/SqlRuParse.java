@@ -24,21 +24,5 @@ public class SqlRuParse {
             System.out.println(date);
         }
 
-       /* Elements elements = doc.getElementsByClass("forumTable").get(0).getElementsByTag("tr");
-        for (Element elem : elements) {
-            Elements date = elem.getElementsById("tr.altCol");
-            //String date = elem.html();
-            String date2 = elem.tag().getName();
-            System.out.println(date);
-            //System.out.println(date2);
-        }*/
-
-        /*Element dates = doc.getElementById("content-wrapper-forum");
-        Elements date = dates.select("td");
-        Elements rowData = date.select(".altCol");
-        for (Element elem : rowData) {
-            //Element time = elem.getElementsByTag();
-            System.out.println(elem);
-        }*/
     }
 }
