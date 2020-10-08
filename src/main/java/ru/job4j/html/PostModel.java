@@ -6,9 +6,16 @@ public class PostModel {
     private int id;
     private String thema;
     private String author;
-    private int answerQuantity;
-    private int viewingQuantity;
+    private String announcementText;
     private Date date;
+
+    public String getAnnouncementText() {
+        return announcementText;
+    }
+
+    public void setAnnouncementText(String announcementText) {
+        this.announcementText = announcementText;
+    }
 
     public int getId() {
         return id;
@@ -34,21 +41,6 @@ public class PostModel {
         this.author = author;
     }
 
-    public int getAnswerQuantity() {
-        return answerQuantity;
-    }
-
-    public void setAnswerQuantity(int answerQuantity) {
-        this.answerQuantity = answerQuantity;
-    }
-
-    public int getViewingQuantity() {
-        return viewingQuantity;
-    }
-
-    public void setViewingQuantity(int viewingQuantity) {
-        this.viewingQuantity = viewingQuantity;
-    }
 
     public Date getDate() {
         return date;
@@ -57,6 +49,5 @@ public class PostModel {
     public void setDate(Date date) {
         this.date = date;
     }
-
 
 }
