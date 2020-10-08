@@ -8,6 +8,7 @@ public class PostModel {
     private String author;
     private int answerQuantity;
     private int viewingQuantity;
+    private Date date;
 
     public int getId() {
         return id;
@@ -57,5 +58,5 @@ public class PostModel {
         this.date = date;
     }
 
-    private Date date;
+
 }
