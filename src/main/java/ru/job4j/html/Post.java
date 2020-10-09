@@ -2,12 +2,21 @@ package ru.job4j.html;
 
 import java.util.Date;
 
-public class PostModel {
+public class Post {
     private int id;
+    private String link;
     private String thema;
-    private String author;
     private String announcementText;
+    private String author;
     private Date date;
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public String getAnnouncementText() {
         return announcementText;

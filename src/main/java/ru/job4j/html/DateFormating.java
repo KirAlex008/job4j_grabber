@@ -11,7 +11,7 @@ public class DateFormating {
     public static Date toDateCoinvertStandart(String line) {
         Date date = null;
         //String testDate = "2 дек 19, 22:29";
-        String[] months = {"янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"};
+        String[] months = {"янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"};
         Locale ru = new Locale("ru");
         DateFormatSymbols symbols = DateFormatSymbols.getInstance(ru);
         symbols.setMonths(months);
