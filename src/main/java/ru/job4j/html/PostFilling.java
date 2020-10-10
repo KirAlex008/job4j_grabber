@@ -9,6 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PostFilling {
+    private static Date date;
+    private final static Pattern patternStandart = Pattern.compile("\\d{1,}\\s[а-яА-ЯёЁ]{3}\\s\\d{2},\\s\\d{2}:\\d{2}");
+    private final static Pattern patternNotStandart = Pattern.compile("[а-яА-ЯёЁ]{5,},\\s\\d{2}:\\d{2}");
 
     public static void main(String[] args) throws Exception {
         //String link = "https://www.sql.ru/forum/1325330/lidy-be-fe-senior-cistemnye-analitiki-qa-i-devops-moskva-do-200t"; // standart date
@@ -22,9 +25,6 @@ public class PostFilling {
     }
 
     public static Post createPost (String link) throws Exception{
-        Date date;
-        Pattern patternStandart = Pattern.compile("\\d{2}\\s[а-яА-ЯёЁ]{3}\\s\\d{2},\\s\\d{2}:\\d{2}");
-        Pattern patternNotStandart = Pattern.compile("[а-яА-ЯёЁ]{5,},\\s\\d{2}:\\d{2}");
         Document doc = Jsoup.connect(link).get();
         Elements rowsTheme = doc.child(0).getElementsByTag("title");
         //Element themeElem = rowsTheme.get(0);
