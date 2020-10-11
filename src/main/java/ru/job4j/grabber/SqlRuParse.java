@@ -56,11 +56,11 @@ public class SqlRuParse implements Parse {
             date = DateFormating.toDateCoinvertNotStandart(elemDate);
         }
         Post post = new Post();
-        post.setThema(theme);
-        post.setAnnouncementText(announcementText);
-        post.setAuthor(authorText);
+        post.setName(theme);
+        post.setText(announcementText);
+        //post.setAuthor(authorText);
         post.setLink(link);
-        post.setDate(date);
+        post.setCreated(date);
         return post;
     }
 
@@ -69,18 +69,18 @@ public class SqlRuParse implements Parse {
         SqlRuParse parser = new SqlRuParse();
         List<Post> allPosts = parser.list(link);
         for (var post :allPosts) {
-            System.out.println(post.getThema());
-            System.out.println(post.getAuthor());
-            System.out.println(post.getAnnouncementText());
+            System.out.println(post.getName());
+            //System.out.println(post.getAuthor());
+            System.out.println(post.getText());
             System.out.println(post.getLink());
-            System.out.println(post.getDate());
+            System.out.println(post.getCreated());
         }
         String linkOfOnePost = "https://www.sql.ru/forum/1329123/inzhener-po-avtomatizirovannomu-testirovaniu-middle-senior";
         Post onePost = parser.detail(linkOfOnePost);
-        System.out.println(onePost.getThema());
-        System.out.println(onePost.getAuthor());
-        System.out.println(onePost.getAnnouncementText());
+        System.out.println(onePost.getName());
+        //System.out.println(onePost.getAuthor());
+        System.out.println(onePost.getText());
         System.out.println(onePost.getLink());
-        System.out.println(onePost.getDate());
+        System.out.println(onePost.getCreated());
     }
 }

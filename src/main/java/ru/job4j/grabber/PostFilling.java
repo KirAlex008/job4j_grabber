@@ -18,11 +18,11 @@ public class PostFilling {
         //String link = "https://www.sql.ru/forum/1325330/lidy-be-fe-senior-cistemnye-analitiki-qa-i-devops-moskva-do-200t"; // standart date
         String link = "https://www.sql.ru/forum/1329781/vakansiya-administrator-baz-dannyh-linux-moskva-udalennaya-rabota"; // not standart date
         Post post = PostFilling.createPost(link);
-        System.out.println(post.getThema());
-        System.out.println(post.getAuthor());
-        System.out.println(post.getAnnouncementText());
+        System.out.println(post.getName());
+        //System.out.println(post.getAuthor());
+        System.out.println(post.getText());
         System.out.println(post.getLink());
-        System.out.println(post.getDate());
+        System.out.println(post.getCreated());
     }
 
     public static Post createPost (String link) throws Exception{
@@ -51,11 +51,11 @@ public class PostFilling {
             date = DateFormating.toDateCoinvertNotStandart(elemDate);
         }
         Post post = new Post();
-        post.setThema(theme);
-        post.setAnnouncementText(announcementText);
-        post.setAuthor(authorText);
+        post.setName(theme);
+        post.setText(announcementText);
+        //post.setAuthor(authorText);
         post.setLink(link);
-        post.setDate(date);
+        post.setCreated(date);
         return post;
     }
 }

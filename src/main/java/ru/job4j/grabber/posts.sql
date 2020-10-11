@@ -3,6 +3,6 @@ create table post(
                      name varchar(300),
                      text text,
                      link varchar(2083),
-                     create_date timestamp,
+                     created timestamp,
                      UNIQUE (link)
 );

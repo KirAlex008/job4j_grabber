@@ -3,12 +3,21 @@ package ru.job4j.grabber;
 import java.util.Date;
 
 public class Post {
-    private int id;
+
+    private String id;
+    private String name;
+    private String text;
     private String link;
-    private String thema;
-    private String announcementText;
-    private String author;
-    private Date date;
+    private Date created;
+    //private String author;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getLink() {
         return link;
@@ -18,45 +27,30 @@ public class Post {
         this.link = link;
     }
 
-    public String getAnnouncementText() {
-        return announcementText;
+    public String getText() {
+        return text;
     }
 
-    public void setAnnouncementText(String announcementText) {
-        this.announcementText = announcementText;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getThema() {
-        return thema;
-    }
-
-    public void setThema(String thema) {
-        this.thema = thema;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setText(String text) {
+        this.text = text;
     }
 
 
-    public Date getDate() {
-        return date;
+
+    public String getName() {
+        return name;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
 }
