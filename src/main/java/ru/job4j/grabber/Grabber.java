@@ -21,35 +21,59 @@ public class Grabber implements Grab {
         return storeDB;
     }
 
-    public void web(Store store) {
-        new Thread(() -> {
+    public void web(Store store) throws IOException {
+        boolean workState = true;
+        {
             try (ServerSocket server = new ServerSocket(Integer.parseInt(cfg.getProperty("port")))) {
-                while (!server.isClosed()) {
+                while (workState) {
                     Socket socket = server.accept();
-                    try (OutputStream out = socket.getOutputStream()) {
-                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                        for (Post post : store.getAll()) {
-                            //out.write(post.toString().getBytes());
-                            out.write(System.lineSeparator().getBytes());
-                            out.write(post.getId().toString().getBytes());
-                            out.write(System.lineSeparator().getBytes());
-                            out.write(post.getName().toString().getBytes());
-                            out.write(System.lineSeparator().getBytes());
-                            out.write(post.getText().toString().getBytes());
-                            out.write(System.lineSeparator().getBytes());
-                            out.write(post.getLink().toString().getBytes());
-                            out.write(post.getCreated().toString().getBytes());
+                    try (OutputStream out = socket.getOutputStream();
+                         BufferedReader in = new BufferedReader(
+                                 new InputStreamReader(socket.getInputStream()))) {
+                        String str;
+                        while (!(str = in.readLine()).isEmpty()) {
+                            if (str.contains("Exit")) {
+                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                                out.write("Server closed".getBytes());
+                                System.out.println("Server closed");
+                                server.close();
+                                workState = false;
+                            }
+                            if (str.contains("Hello")) {
+                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                                for (Post post : store.getAll()) {
+                                    //out.write(post.toString().getBytes());
+                                    out.write(System.lineSeparator().getBytes());
+                                    out.write(post.getId().toString().getBytes());
+                                    out.write(System.lineSeparator().getBytes());
+                                    out.write(post.getName().toString().getBytes());
+                                    out.write(System.lineSeparator().getBytes());
+                                    out.write(post.getText().toString().getBytes());
+                                    out.write(System.lineSeparator().getBytes());
+                                    out.write(post.getLink().toString().getBytes());
+                                    out.write(post.getCreated().toString().getBytes());
 
-                            out.write(System.lineSeparator().getBytes());
+                                    out.write(System.lineSeparator().getBytes());
+                                }
+                                workState = true;
+                            } else {
+                                if (str.contains("HTTP") && !(str.contains("Hello") || str.contains("Exit"))) {
+                                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                                    out.write(str.substring(10, str.indexOf("HTTP")).getBytes());
+                                    System.out.println(str);
+                                    workState = true;
+                                }
+                            }
                         }
-                    } catch (IOException io) {
-                        io.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (workState == false) {
+                        break;
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }).start();
+        }
     }
 
     public Scheduler scheduler() throws SchedulerException {
@@ -69,14 +93,15 @@ public class Grabber implements Grab {
         Date startTime = null;
         Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT+3"));
         //int hour = 0;
-        int start = 1;
-        int stop = 2;
+        int start = 0;
+        int stop = 1;
         //calendar.add(Calendar.HOUR, + hour);
         calendar.add(Calendar.MINUTE, + start);
         startTime = calendar.getTime();
         System.out.println(startTime);
         calendar.add(Calendar.MINUTE, + stop);
         Date stopTime = calendar.getTime();
+        System.out.println(stopTime);
         JobDataMap data = new JobDataMap();
         data.put("store", store);
         data.put("parse", parse);
@@ -85,16 +110,16 @@ public class Grabber implements Grab {
                 .build();
         SimpleScheduleBuilder times = simpleSchedule()
                 .withIntervalInSeconds(Integer.parseInt(cfg.getProperty("time")))
-                .repeatForever();
-                //.withRepeatCount(2);
+                //.repeatForever();
+                .withRepeatCount(2);
         Trigger trigger = newTrigger()
                 .startAt(startTime)
                 .withSchedule(times)
                 .endAt(stopTime)
                 .build();
         scheduler.scheduleJob(job, trigger);
-        Thread.sleep(60000);
-        scheduler.shutdown();
+        //Thread.sleep(60000);
+        //scheduler.shutdown();
     }
 
     public static class GrabJob implements Job {
@@ -114,7 +139,7 @@ public class Grabber implements Grab {
             for (var el : list) {
                 store.save(el);
             }
-            List<Post> list2 = store.getAll();
+/*            List<Post> list2 = store.getAll();
             for (var el : list2) {
                 System.out.println(el.getId());
                 System.out.println(el.getName());
@@ -127,7 +152,7 @@ public class Grabber implements Grab {
             System.out.println(post.getName());
             System.out.println(post.getText());
             System.out.println(post.getLink());
-            System.out.println(post.getCreated());
+            System.out.println(post.getCreated());*/
         }
 
     }
