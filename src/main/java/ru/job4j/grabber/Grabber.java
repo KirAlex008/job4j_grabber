@@ -21,59 +21,35 @@ public class Grabber implements Grab {
         return storeDB;
     }
 
-    public void web(Store store) throws IOException {
-        boolean workState = true;
-        {
+    public void web(Store store) {
+        new Thread(() -> {
             try (ServerSocket server = new ServerSocket(Integer.parseInt(cfg.getProperty("port")))) {
-                while (workState) {
+                while (!server.isClosed()) {
                     Socket socket = server.accept();
-                    try (OutputStream out = socket.getOutputStream();
-                         BufferedReader in = new BufferedReader(
-                                 new InputStreamReader(socket.getInputStream()))) {
-                        String str;
-                        while (!(str = in.readLine()).isEmpty()) {
-                            if (str.contains("Exit")) {
-                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                                out.write("Server closed".getBytes());
-                                System.out.println("Server closed");
-                                server.close();
-                                workState = false;
-                            }
-                            if (str.contains("Hello")) {
-                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                                for (Post post : store.getAll()) {
-                                    //out.write(post.toString().getBytes());
-                                    out.write(System.lineSeparator().getBytes());
-                                    out.write(post.getId().toString().getBytes());
-                                    out.write(System.lineSeparator().getBytes());
-                                    out.write(post.getName().toString().getBytes());
-                                    out.write(System.lineSeparator().getBytes());
-                                    out.write(post.getText().toString().getBytes());
-                                    out.write(System.lineSeparator().getBytes());
-                                    out.write(post.getLink().toString().getBytes());
-                                    out.write(post.getCreated().toString().getBytes());
+                    try (OutputStream out = socket.getOutputStream()) {
+                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        for (Post post : store.getAll()) {
+                            out.write(post.toString().getBytes());
+                            out.write(System.lineSeparator().getBytes());
+                            out.write(post.getId().toString().getBytes());
+                            out.write(System.lineSeparator().getBytes());
+                            out.write(post.getName().toString().getBytes());
+                            out.write(System.lineSeparator().getBytes());
+                            out.write(post.getText().toString().getBytes());
+                            out.write(System.lineSeparator().getBytes());
+                            out.write(post.getLink().toString().getBytes());
+                            out.write(post.getCreated().toString().getBytes());
 
-                                    out.write(System.lineSeparator().getBytes());
-                                }
-                                workState = true;
-                            } else {
-                                if (str.contains("HTTP") && !(str.contains("Hello") || str.contains("Exit"))) {
-                                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                                    out.write(str.substring(10, str.indexOf("HTTP")).getBytes());
-                                    System.out.println(str);
-                                    workState = true;
-                                }
-                            }
+                            out.write(System.lineSeparator().getBytes());
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (workState == false) {
-                        break;
+                    } catch (IOException io) {
+                        io.printStackTrace();
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
+        }).start();
     }
 
     public Scheduler scheduler() throws SchedulerException {
